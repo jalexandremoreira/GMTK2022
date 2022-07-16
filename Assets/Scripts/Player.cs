@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public TMP_Text displayPlayerHealth;
     public Array dice;
     public float health;
 
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        
+        displayPlayerHealth.text = health.ToString();
     }
 
     public void TakeDamage(int damageAmount) {
