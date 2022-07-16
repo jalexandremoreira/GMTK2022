@@ -30,9 +30,6 @@ public class Player : Di
 
     public void TakeDamage(int damageAmount) {
         currentHealth -= damageAmount;
-            print("currentHealth" + currentHealth);
-            print("damageAmount" + damageAmount);
-
         if(currentHealth <= 0) {
             print("you died");
             Destroy(gameObject);
@@ -45,7 +42,6 @@ public class Player : Di
             float y = -2.5f;
 
             Instantiate(diToSpawn, new Vector3(x, y, 0), transform.rotation);
-
         }
     }
 

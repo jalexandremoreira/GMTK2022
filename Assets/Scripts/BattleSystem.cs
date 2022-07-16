@@ -54,10 +54,42 @@ public class BattleSystem : MonoBehaviour {
             GameObject enemyGO = Instantiate(enemyPrefab, enemySpawn);
             enemyUnit = enemyGO.GetComponent<Enemy>();
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.2f);
 
         state = BattleState.PLAYERTURN;
         PlayerTurn();    
+    }
+
+    IEnumerator PlayerAction() {
+        if (playerUnit.hasChosenDi) {
+            enemyUnit.CallSpawner();
+
+            yield return new WaitForSeconds(.5f);
+            print("diValue" + enemyUnit.diValue);
+
+            CalculateDamage(playerUnit.diValue, enemyUnit.diValue);
+            enemyUnit.TakeDamage(damage);
+        } 
+
+        // after we attack the enemy di stays on screen for a bit
+        yield return new WaitForSeconds(1f);
+        // EnemyTurn();
+
+        if (enemyUnit.currentHealth <= 0) {
+            state = BattleState.WON;
+            // EndBattle();
+        } else {
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyAction());
+        }
+    }
+
+    IEnumerator EnemyAction() {
+        if(playerUnit.hasChosenDi) {
+            enemyUnit.CallSpawner();
+        }
+        yield return new WaitForSeconds(0.2f);
+
     }
 
     public void Update() {
@@ -79,16 +111,7 @@ public class BattleSystem : MonoBehaviour {
         playerText.text = "your turn";
     }
 
-    IEnumerator PlayerAction() {
-        if (playerUnit.hasChosenDi) {
-            CalculateDamage(playerUnit.diValue, enemyUnit.diValue);
-            enemyUnit.TakeDamage(damage);
-        }
-
-        state = BattleState.ENEMYTURN;
-        yield return new WaitForSeconds(2f);
-        // EnemyTurn();
-    }
+    
 
     public void OnChooseDi() {
         StartCoroutine(PlayerAction());
