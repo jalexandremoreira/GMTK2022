@@ -23,7 +23,11 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damageAmount) {
         health -= damageAmount;
+            print("health" + health);
+            print("damageAmount" + damageAmount);
+
         if(health <= 0) {
+            print("you died");
             Destroy(gameObject);
         }
     }

@@ -15,9 +15,6 @@ public class Battler : MonoBehaviour {
     public TMP_Text valueText;
 
     private void Start() {
-        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
-        damage = 0;
         //• spawn the dice
         //• display the player dice value
         //• wait for player choice
@@ -25,12 +22,21 @@ public class Battler : MonoBehaviour {
         //• calculate and display damage
         //• reset for next round
 
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        damage = 0;
+
         CalculateDamage(attackingDi, defendingDi);
+
+        valueText.text = damage.ToString();
+        
+        if (playerScript != null) {
+            playerScript.TakeDamage(damage);
+        }
     }
 
-    private void Update() {
-        valueText.text = damage.ToString();
-    }
+    // private void Update() {
+    // }
 
     public void CalculateDamage(int attackDi, int defendDi) {
         if(attackDi == 1) {
