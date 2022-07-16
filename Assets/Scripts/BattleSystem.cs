@@ -62,18 +62,27 @@ public class BattleSystem : MonoBehaviour {
 
     IEnumerator PlayerAction() {
         if (playerUnit.hasChosenDi) {
+            if(playerActionButtonText != null && playerUnit.selectedDi != null) {
+                playerActionButtonText.text = "attack with number " + playerUnit.selectedDi.value + " di";
+
+                playerActionButton.enabled = true;
+            }
+
             enemyUnit.CallSpawner();
 
             yield return new WaitForSeconds(.5f);
-            print("diValue" + enemyUnit.diValue);
+            print("diValue" + enemyUnit.selectedDi.value);
 
-            CalculateDamage(playerUnit.diValue, enemyUnit.diValue);
+            CalculateDamage(playerUnit.selectedDi.value, enemyUnit.selectedDi.value);
             enemyUnit.TakeDamage(damage);
         } 
 
         // after we attack the enemy di stays on screen for a bit
         yield return new WaitForSeconds(1f);
         // EnemyTurn();
+
+        playerActionButtonText.text = "choose a di";
+        playerActionButton.enabled = false;
 
         if (enemyUnit.currentHealth <= 0) {
             state = BattleState.WON;
@@ -85,11 +94,21 @@ public class BattleSystem : MonoBehaviour {
     }
 
     IEnumerator EnemyAction() {
-        if(playerUnit.hasChosenDi) {
-            enemyUnit.CallSpawner();
-        }
-        yield return new WaitForSeconds(0.2f);
+        enemyUnit.CallDespawner();
+        playerUnit.CallSpawner();
 
+        if(playerUnit.hasChosenDi) {
+            if(playerActionButtonText != null) {
+                playerActionButtonText.text = "defend";
+                playerActionButton.enabled = true;
+            }
+
+            enemyUnit.CallSpawner();
+            yield return new WaitForSeconds(0.2f);
+            
+            CalculateDamage(enemyUnit.selectedDi.value, playerUnit.selectedDi.value);
+            playerUnit.TakeDamage(damage);
+        }
     }
 
     public void Update() {
@@ -98,11 +117,6 @@ public class BattleSystem : MonoBehaviour {
         }
         if(enemyText != null) {
             enemyText.text = enemyUnit.name + " " + enemyUnit.currentHealth.ToString();
-        }
-        if(playerActionButtonText != null && playerUnit != null && playerUnit.hasChosenDi == true) {
-            playerActionButtonText.text = "attack";
-
-            playerActionButton.enabled = true;
         }
     }
 
@@ -114,7 +128,11 @@ public class BattleSystem : MonoBehaviour {
     
 
     public void OnChooseDi() {
-        StartCoroutine(PlayerAction());
+        if(state == BattleState.PLAYERTURN) {
+            StartCoroutine(PlayerAction());
+        } else if(state == BattleState.ENEMYTURN) {
+            StartCoroutine(EnemyAction());
+        }
     }
 
     public void CalculateDamage(int attackDi, int defendDi) {

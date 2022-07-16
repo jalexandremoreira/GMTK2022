@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : Di
 {
     public Di diToSpawn;
-    Di selectedDi;
+    public Di selectedDi;
 
     public string name;
     public int diValue;
@@ -35,7 +35,6 @@ public class Enemy : Di
 
     IEnumerator SpawnDi() {
         if(selectedDi != null) {
-            print("checking for dice");
             Destroy(selectedDi.gameObject);
             
             yield return new WaitForSeconds(1.5f);
@@ -50,6 +49,17 @@ public class Enemy : Di
         
         if(selectedDi != null) {
             diValue = selectedDi.value;
+        }
+    }
+    
+    public void CallDespawner() {
+        StartCoroutine(DespawnDi());
+    }
+
+    IEnumerator DespawnDi() {
+        if(selectedDi != null) {
+            Destroy(selectedDi.gameObject);
+            yield return new WaitForSeconds(1.5f);
         }
     }
 }

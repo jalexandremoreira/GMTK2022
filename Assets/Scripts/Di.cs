@@ -15,6 +15,7 @@ public class Di : MonoBehaviour {
 
     public bool isSelected;
     public bool isEnemy;
+    public int? index;
     
     public virtual void Start() {
         value = Random.Range(1, 7);
@@ -24,18 +25,12 @@ public class Di : MonoBehaviour {
         if(GameObject.FindGameObjectWithTag("Player") != null) {
             playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
-        
+
         if(isEnemy) {
             transform.localScale += new Vector3(newScaleEnemy, newScaleEnemy, 0);
         }
 
         RollDi();
-    }
-
-    private void Update() {
-        if(isSelected && playerScript != null) {
-            playerScript.SetValues(value, true);
-        }
     }
 
     void OnMouseEnter()
@@ -58,8 +53,11 @@ public class Di : MonoBehaviour {
     
     void OnMouseDown()
     {
-        if(!isEnemy) {
+        if(!isEnemy && index != null) {
             isSelected = !isSelected;
+            
+            int newIndex = (int)index;
+            playerScript.HandleSelectDi(newIndex);
         }
     }
     
