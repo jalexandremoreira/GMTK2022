@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public enum BattleState {
@@ -26,6 +27,8 @@ public class BattleSystem : MonoBehaviour {
 
     public TMP_Text enemyText;
     public TMP_Text playerText;
+    public TMP_Text playerActionButtonText;
+    public UnityEngine.UI.Button playerActionButton;
 
     public int damage;
 
@@ -38,6 +41,8 @@ public class BattleSystem : MonoBehaviour {
 
         damage = 0;
 
+        playerActionButtonText.text = "choose a di";
+        playerActionButton.enabled = false;
     }
     
     IEnumerator SetupBattle() {
@@ -62,12 +67,16 @@ public class BattleSystem : MonoBehaviour {
         if(enemyText != null) {
             enemyText.text = enemyUnit.name + " " + enemyUnit.currentHealth.ToString();
         }
+        if(playerActionButtonText != null && playerUnit != null && playerUnit.hasChosenDi == true) {
+            playerActionButtonText.text = "attack";
+
+            playerActionButton.enabled = true;
+        }
     }
 
     void PlayerTurn() {
         // choose a di
         playerText.text = "your turn";
-        PlayerAction();
     }
 
     IEnumerator PlayerAction() {
