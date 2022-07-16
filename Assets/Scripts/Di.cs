@@ -10,10 +10,19 @@ public class Di : MonoBehaviour {
     
     private Color startcolor;
     private float newScale;
+    private float newScaleEnemy;
+
+    public bool isSelected;
+    public bool isEnemy;
     
     private void Start() {
         value = Random.Range(1, 7);
         newScale = 0.15f;
+        newScaleEnemy = 0.2f;
+        
+        if(isEnemy) {
+            transform.localScale += new Vector3(newScaleEnemy, newScaleEnemy, 0);
+        }
     }
 
     private void Update() {
@@ -22,21 +31,27 @@ public class Di : MonoBehaviour {
 
     void OnMouseEnter()
     {
-        print($"Mouse entered {this.name}");
-        // float newScale = Mathf.Lerp(0.1f, 0, Time.deltaTime / 10);
-        // print(newScale);
-        transform.localScale += new Vector3(newScale, newScale, 0);
+        if(!isEnemy) {
+            if(!isSelected) {
+                transform.localScale += new Vector3(newScale, newScale, 0);
+            }
+        }
     }
     
     void OnMouseExit()
     {
-        // float newScale = Mathf.Lerp(0, 0.1f, Time.deltaTime / 10);
-        transform.localScale -= new Vector3(newScale, newScale, 0);
+        if(!isEnemy) {
+            if(!isSelected) {
+                transform.localScale -= new Vector3(newScale, newScale, 0);
+            }
+        }
     }
     
     void OnMouseDown()
     {
-        print($"selected {this.value} as attack");
+        if(!isEnemy) {
+            isSelected = !isSelected;
+        }
     }
     
     void RollDi() {
