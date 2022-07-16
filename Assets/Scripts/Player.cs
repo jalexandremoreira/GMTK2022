@@ -9,19 +9,23 @@ public class Player : Di
 
     public string name;
     public int diceNumber;
-    public int damage;
+    public int diValue;
     public int currentHealth;
     public int maxHealth;
 
+    public bool hasChosenDi;
+
     private Animator anim;
 
+
     public override void Start()
-    {
+    {   
+        hasChosenDi = false;
         anim = GetComponent<Animator>();
         SpawnDice();
     }
 
-    // private void Update() {
+    // void Update() {
     // }
 
     public void TakeDamage(int damageAmount) {
@@ -39,8 +43,14 @@ public class Player : Di
         for(int i = 0; i < diceNumber; i++) {
             float x = i == 0 ? 3 : 6.2f;
             float y = -2.5f;
+
             Instantiate(diToSpawn, new Vector3(x, y, 0), transform.rotation);
 
         }
+    }
+
+    public void SetValues(int setDamage, bool setHasChosenDi) {
+        diValue = setDamage;
+        hasChosenDi = setHasChosenDi;
     }
 }

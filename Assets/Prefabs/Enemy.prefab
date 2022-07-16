@@ -45,12 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae09118a02fe47c8baecfd94cf7c1b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valueText: {fileID: 0}
+  diNumberText: {fileID: 0}
   value: 0
   isSelected: 0
   isEnemy: 0
   displayPlayerHealth: {fileID: 0}
-  diToSpawn: {fileID: 0}
+  diToSpawn: {fileID: 1123854874899670104, guid: 29ac3434e3d7045efa02291430905dd3, type: 3}
   name: Clint
   diceNumber: 1
   damage: 0

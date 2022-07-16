@@ -5,6 +5,8 @@ using TMPro;
 
 public class Di : MonoBehaviour {
 
+    private Player playerScript;
+
     public TMP_Text diNumberText;
     public int value;
     
@@ -19,6 +21,10 @@ public class Di : MonoBehaviour {
         newScale = 0.15f;
         newScaleEnemy = 0.2f;
         
+        if(GameObject.FindGameObjectWithTag("Player") != null) {
+            playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        }
+        
         if(isEnemy) {
             transform.localScale += new Vector3(newScaleEnemy, newScaleEnemy, 0);
         }
@@ -26,8 +32,11 @@ public class Di : MonoBehaviour {
         RollDi();
     }
 
-    // private void Update() {
-    // }
+    private void Update() {
+        if(isSelected && playerScript != null) {
+            playerScript.SetValues(value, true);
+        }
+    }
 
     void OnMouseEnter()
     {

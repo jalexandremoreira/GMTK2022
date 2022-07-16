@@ -13,7 +13,6 @@ public enum BattleState {
 
 public class BattleSystem : MonoBehaviour {
 
-    private Player playerScript;
     public BattleState state;
 
     Player playerUnit;
@@ -25,47 +24,65 @@ public class BattleSystem : MonoBehaviour {
     public Transform playerSpawn;
     public Transform enemySpawn;
 
+    public TMP_Text enemyText;
+    public TMP_Text playerText;
+
     public int damage;
 
     public int attackingDi;
     public int defendingDi;
 
-
-    public TMP_Text enemyText;
-    public TMP_Text playerText;
-
     private void Start() {
-        //• spawn the dice
-        //• display the player dice value
-        //• wait for player choice
-        //• display the enemy dice value
-        //• calculate and display damage
-        //• reset for next round
         state = BattleState.START;
-        SetupBattle();
-    
-        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        StartCoroutine(SetupBattle());
 
         damage = 0;
 
-        CalculateDamage(attackingDi, defendingDi);
-        
-        if (playerScript != null) {
-            playerScript.TakeDamage(damage);
+    }
+    
+    IEnumerator SetupBattle() {
+        if(playerPrefab != null) {
+            GameObject playerGO = Instantiate(playerPrefab, playerSpawn);
+            playerUnit = playerGO.GetComponent<Player>();
+        }
+        if(enemyPrefab != null) {
+            GameObject enemyGO = Instantiate(enemyPrefab, enemySpawn);
+            enemyUnit = enemyGO.GetComponent<Enemy>();
+        }
+        yield return new WaitForSeconds(2f);
+
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();    
+    }
+
+    public void Update() {
+        if(playerText != null) {
+            playerText.text = playerUnit.name + " " + playerUnit.currentHealth.ToString();
+        }
+        if(enemyText != null) {
+            enemyText.text = enemyUnit.name + " " + enemyUnit.currentHealth.ToString();
         }
     }
 
-    // private void Update() {
-    // }
+    void PlayerTurn() {
+        // choose a di
+        playerText.text = "your turn";
+        PlayerAction();
+    }
 
-    void SetupBattle() {
-        GameObject playerGO = Instantiate(playerPrefab, playerSpawn);
-        playerUnit = playerGO.GetComponent<Player>();
-        GameObject enemyGO = Instantiate(enemyPrefab, enemySpawn);
-        enemyUnit = enemyGO.GetComponent<Enemy>();
+    IEnumerator PlayerAction() {
+        if (playerUnit.hasChosenDi) {
+            CalculateDamage(playerUnit.diValue, enemyUnit.diValue);
+            enemyUnit.TakeDamage(damage);
+        }
 
-        playerText.text = playerUnit.name + " " + playerUnit.currentHealth.ToString();
-        enemyText.text = enemyUnit.name + " " + enemyUnit.currentHealth.ToString();
+        state = BattleState.ENEMYTURN;
+        yield return new WaitForSeconds(2f);
+        // EnemyTurn();
+    }
+
+    public void OnChooseDi() {
+        StartCoroutine(PlayerAction());
     }
 
     public void CalculateDamage(int attackDi, int defendDi) {

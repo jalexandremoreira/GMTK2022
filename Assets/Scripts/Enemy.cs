@@ -2,16 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class Enemy : Di
 {
-    public TMP_Text displayPlayerHealth;
     public Di diToSpawn;
+    Di selectedDi;
 
     public string name;
-    public int diceNumber;
-    public int damage;
+    public int diValue;
     public int currentHealth;
     public int maxHealth;
 
@@ -20,13 +18,10 @@ public class Enemy : Di
     public override void Start()
     {
         anim = GetComponent<Animator>();
-        SpawnDice();
-    }
 
-    private void Update() {
-        // displayPlayerHealth.text = currentHealth.ToString();
+        StartCoroutine(SpawnDi());
     }
-
+    
     public void TakeDamage(int damageAmount) {
         currentHealth -= damageAmount;
             print("currentHealth" + currentHealth);
@@ -38,12 +33,15 @@ public class Enemy : Di
         }
     }
 
-    public void SpawnDice() {
-        for(int i = 0; i < diceNumber; i++) {
-            float x = i == 0 ? 3 : 6.2f;
-            float y = -2.5f;
-            Instantiate(diToSpawn, new Vector3(x, y, 0), transform.rotation);
-
+    IEnumerator SpawnDi() {
+        Di diGO = Instantiate(diToSpawn, new Vector3(4.6f, 1.6f, 0), transform.rotation);
+        selectedDi = diGO.GetComponent<Di>();
+        selectedDi.isEnemy = true;
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        if(selectedDi != null) {
+            diValue = selectedDi.value;
         }
     }
 }
