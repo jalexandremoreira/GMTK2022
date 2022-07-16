@@ -15,7 +15,7 @@ public class Di : MonoBehaviour {
     public bool isSelected;
     public bool isEnemy;
     
-    private void Start() {
+    public virtual void Start() {
         value = Random.Range(1, 7);
         newScale = 0.15f;
         newScaleEnemy = 0.2f;

@@ -249,6 +249,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valueText: {fileID: 1123854873702278164}
   value: 0
+  isSelected: 0
+  isEnemy: 0
 --- !u!61 &712828767241324346
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -315,7 +317,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

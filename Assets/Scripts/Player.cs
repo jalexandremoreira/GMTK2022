@@ -4,17 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Player : MonoBehaviour
+public class Player : Di
 {
     public TMP_Text displayPlayerHealth;
-    public Array dice;
-    public float health;
+    public Di diToSpawn;
+
+    public int diceNumber;
+    public int health;
 
     private Animator anim;
 
-    private void Start()
+    public override void Start()
     {
         anim = GetComponent<Animator>();
+
+        SpawnDice();
     }
 
     private void Update() {
@@ -29,6 +33,15 @@ public class Player : MonoBehaviour
         if(health <= 0) {
             print("you died");
             Destroy(gameObject);
+        }
+    }
+
+    public void SpawnDice() {
+        for(int i = 0; i < diceNumber; i++) {
+            float x = i == 0 ? 3 : 6.2f;
+            float y = -2.5f;
+            Instantiate(diToSpawn, new Vector3(x, y, 0), transform.rotation);
+
         }
     }
 }
