@@ -2,35 +2,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class Player : Di
 {
-    public TMP_Text displayPlayerHealth;
     public Di diToSpawn;
 
+    public string name;
     public int diceNumber;
-    public int health;
+    public int damage;
+    public int currentHealth;
+    public int maxHealth;
 
     private Animator anim;
 
     public override void Start()
     {
         anim = GetComponent<Animator>();
-
         SpawnDice();
     }
 
-    private void Update() {
-        displayPlayerHealth.text = health.ToString();
-    }
+    // private void Update() {
+    // }
 
     public void TakeDamage(int damageAmount) {
-        health -= damageAmount;
-            print("health" + health);
+        currentHealth -= damageAmount;
+            print("currentHealth" + currentHealth);
             print("damageAmount" + damageAmount);
 
-        if(health <= 0) {
+        if(currentHealth <= 0) {
             print("you died");
             Destroy(gameObject);
         }

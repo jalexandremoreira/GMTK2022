@@ -5,10 +5,9 @@ using TMPro;
 
 public class Di : MonoBehaviour {
 
-    public TMP_Text valueText;
+    public TMP_Text diNumberText;
     public int value;
     
-    private Color startcolor;
     private float newScale;
     private float newScaleEnemy;
 
@@ -23,11 +22,12 @@ public class Di : MonoBehaviour {
         if(isEnemy) {
             transform.localScale += new Vector3(newScaleEnemy, newScaleEnemy, 0);
         }
-    }
 
-    private void Update() {
         RollDi();
     }
+
+    // private void Update() {
+    // }
 
     void OnMouseEnter()
     {
@@ -55,6 +55,6 @@ public class Di : MonoBehaviour {
     }
     
     void RollDi() {
-        valueText.text = value.ToString();
+        diNumberText.text = value.ToString();
     }
 }

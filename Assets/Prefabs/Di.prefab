@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c722e96db3dc74609a766b3c5b96e168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valueText: {fileID: 1123854873702278164}
+  diNumberText: {fileID: 1123854873702278164}
   value: 0
   isSelected: 0
   isEnemy: 0
