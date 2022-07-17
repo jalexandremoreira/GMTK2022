@@ -10,6 +10,7 @@ public class Di : MonoBehaviour {
     public TMP_Text diNumberText;
     public int value;
     
+    private float scale;
     private float newScale;
     private float newScaleEnemy;
 
@@ -17,18 +18,29 @@ public class Di : MonoBehaviour {
     public bool isEnemy;
     public int? index;
     
+    public Sprite[] spriteArray;
+    public SpriteRenderer spriteRenderer;
+    
     public virtual void Start() {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         isSelected = false;
         value = Random.Range(1, 7);
-        newScale = 0.15f;
-        newScaleEnemy = 0.2f;
+
+        scale = 0.13f;
+        newScale = 0.05f;
+        newScaleEnemy = 0.1f;
+
+        spriteRenderer.sprite = spriteArray[value - 1]; 
         
         if(GameObject.FindGameObjectWithTag("Player") != null) {
             playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
 
         if(isEnemy) {
-            transform.localScale += new Vector3(newScaleEnemy, newScaleEnemy, 0);
+            transform.localScale = new Vector3(newScaleEnemy + scale, newScaleEnemy + scale, 0);
+        } else if (isEnemy == false) {
+            transform.localScale = new Vector3(scale, scale, 0);
+
         }
 
         RollDi();
