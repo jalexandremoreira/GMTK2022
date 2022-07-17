@@ -39,6 +39,7 @@ public class Player : Di
     }
 
     public void CallSpawner() {
+        print("calling player spawner");
         StartCoroutine(SpawnDice());
     }
 
@@ -68,9 +69,7 @@ public class Player : Di
     }
 
     public void HandleSelectDi(int index) {
-        print("index " + index);
         if(hasChosenDi) {
-            print("has chosen di");
             if(selectedDi.index == index) {
                 print("has chosen di");
                 selectedDi = null;

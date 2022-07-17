@@ -29,7 +29,7 @@ public class Enemy : Di
     }
 
     public void CallSpawner() {
-        print("calling spawner locally");
+        print("calling enemy spawner");
         StartCoroutine(SpawnDi());
     }
 

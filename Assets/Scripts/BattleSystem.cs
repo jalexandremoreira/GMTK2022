@@ -56,53 +56,61 @@ public class BattleSystem : MonoBehaviour {
         }
         yield return new WaitForSeconds(0.2f);
 
-        state = BattleState.PLAYERTURN;
-        PlayerTurn();    
+        state = BattleState.PLAYERTURN; 
     }
 
-    IEnumerator PlayerAction() {
+    IEnumerator PlayerTurn() {
         if (playerUnit.hasChosenDi) {
             enemyUnit.CallSpawner();
 
             yield return new WaitForSeconds(.5f);
-            print("diValue" + enemyUnit.selectedDi.value);
 
             CalculateDamage(playerUnit.selectedDi.value, enemyUnit.selectedDi.value);
             enemyUnit.TakeDamage(damage);
+
+            // after we attack the enemy di stays on screen for a bit
+            yield return new WaitForSeconds(1f);
+
+            playerActionButtonText.text = "choose a di";
+            playerActionButton.enabled = false;
+
+            TurnCleanUp();
         } 
+    }
 
-        // after we attack the enemy di stays on screen for a bit
-        yield return new WaitForSeconds(1f);
-        // EnemyTurn();
+    IEnumerator EnemyTurn() {
+        if(playerUnit.hasChosenDi) {
+            enemyUnit.CallSpawner();
+            yield return new WaitForSeconds(0.5f);
+            
+            CalculateDamage(enemyUnit.selectedDi.value, playerUnit.selectedDi.value);
+            print("enemy damage: " + damage);
+            playerUnit.TakeDamage(damage);
 
-        playerActionButtonText.text = "choose a di";
-        playerActionButton.enabled = false;
+            yield return new WaitForSeconds(1f);
 
-        if (enemyUnit.currentHealth <= 0) {
-            state = BattleState.WON;
-            // EndBattle();
-        } else {
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyAction());
+            TurnCleanUp();
         }
     }
 
-    IEnumerator EnemyAction() {
+    void TurnCleanUp() {
+        if (enemyUnit.currentHealth <= 0) {
+            state = BattleState.WON;
+            // EndBattle(won: true);
+        } else if(playerUnit.currentHealth <= 0) {
+            state = BattleState.LOST;
+            // EndBattle(won: false);
+        } else {
+            if(state.Equals(BattleState.PLAYERTURN)) {
+                state = BattleState.ENEMYTURN;
+            } else if(state.Equals(BattleState.ENEMYTURN)){
+                state = BattleState.PLAYERTURN;
+            }
+        }
+
         enemyUnit.CallDespawner();
         playerUnit.CallSpawner();
-
-        if(playerUnit.hasChosenDi) {
-            if(playerActionButtonText != null) {
-                playerActionButtonText.text = "defend";
-                playerActionButton.enabled = true;
-            }
-
-            enemyUnit.CallSpawner();
-            yield return new WaitForSeconds(0.2f);
-            
-            CalculateDamage(enemyUnit.selectedDi.value, playerUnit.selectedDi.value);
-            playerUnit.TakeDamage(damage);
-        }
+        playerUnit.hasChosenDi = false;
     }
 
     public void Update() {
@@ -125,18 +133,11 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    void PlayerTurn() {
-        // choose a di
-        playerText.text = "your turn";
-    }
-
-    
-
     public void OnChooseDi() {
         if(state == BattleState.PLAYERTURN) {
-            StartCoroutine(PlayerAction());
+            StartCoroutine(PlayerTurn());
         } else if(state == BattleState.ENEMYTURN) {
-            StartCoroutine(EnemyAction());
+            StartCoroutine(EnemyTurn());
         }
     }
 
