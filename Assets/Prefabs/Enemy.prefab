@@ -49,13 +49,12 @@ MonoBehaviour:
   value: 0
   isSelected: 0
   isEnemy: 0
-  displayPlayerHealth: {fileID: 0}
   diToSpawn: {fileID: 1123854874899670104, guid: 29ac3434e3d7045efa02291430905dd3, type: 3}
+  selectedDi: {fileID: 0}
   name: Clint
-  diceNumber: 1
-  damage: 0
-  currentHealth: 20
-  maxHealth: 20
+  diValue: 0
+  currentHealth: 10
+  maxHealth: 10
 --- !u!1 &5750557241629568689
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,14 +79,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5750557241629568689}
-  m_LocalRotation: {x: 0, y: 0, z: 0.020680677, w: 0.99978614}
+  m_LocalRotation: {x: 0, y: 0, z: -0.014922054, w: 0.99988866}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2423, y: 0.2423, z: 0.2423}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5750557241334942946}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.37}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.71}
 --- !u!212 &5750557241629568691
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -131,7 +130,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 66044431f9f6445bc83dad32ee644ffe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 16.685682, y: 23.88}

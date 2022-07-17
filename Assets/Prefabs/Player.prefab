@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 17839d30ddef140759886ba2676cc9e8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72e43ce0be3764dc9b1190db6c119ef8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,14 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb892c761fb7f47b9adc9ed710459c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valueText: {fileID: 0}
+  diNumberText: {fileID: 0}
   value: 0
   isSelected: 0
   isEnemy: 0
-  displayPlayerHealth: {fileID: 0}
   diToSpawn: {fileID: 1123854874899670104, guid: 29ac3434e3d7045efa02291430905dd3, type: 3}
+  selectedDi: {fileID: 0}
   name: Player
   diceNumber: 2
-  damage: 0
-  currentHealth: 20
-  maxHealth: 20
+  currentHealth: 10
+  maxHealth: 10
+  hasChosenDi: 0

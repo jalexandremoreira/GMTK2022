@@ -57,7 +57,7 @@ public class Player : Di
             
         for(int i = 0; i < diceNumber; i++) {
             float x = i == 0 ? 3 : 6.2f;
-            float y = -2;
+            float y = -2.5f;
 
             Di newDi = Instantiate(diToSpawn, new Vector3(x, y, 0), transform.rotation);
             newDi.index = i;

@@ -40,7 +40,7 @@ public class Enemy : Di
         }
 
 
-        Di diGO = Instantiate(diToSpawn, new Vector3(4.6f, 1.6f, 0), transform.rotation);
+        Di diGO = Instantiate(diToSpawn, new Vector3(4.6f, 0.8f, 0), transform.rotation);
         selectedDi = diGO.GetComponent<Di>();
         selectedDi.isEnemy = true;
         
