@@ -27,6 +27,9 @@ public class BattleSystem : MonoBehaviour {
 
     public TMP_Text enemyText;
     public TMP_Text playerText;
+    
+    public TMP_Text descriptionText;
+
     public TMP_Text playerActionButtonText;
     public UnityEngine.UI.Button playerActionButton;
 
@@ -42,6 +45,7 @@ public class BattleSystem : MonoBehaviour {
         damage = 0;
 
         playerActionButtonText.text = "choose a di";
+        descriptionText.text = "an enemy approaches...";
         playerActionButton.enabled = false;
     }
     
@@ -54,25 +58,26 @@ public class BattleSystem : MonoBehaviour {
             GameObject enemyGO = Instantiate(enemyPrefab, enemySpawn);
             enemyUnit = enemyGO.GetComponent<Enemy>();
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
 
-        state = BattleState.PLAYERTURN; 
+        descriptionText.text = "it's your turn... attack!";
+        state = BattleState.PLAYERTURN;
     }
 
     IEnumerator PlayerTurn() {
         if (playerUnit.hasChosenDi) {
+            playerUnit.hasChosenDi = false;
             enemyUnit.CallSpawner();
 
             yield return new WaitForSeconds(.5f);
+            descriptionText.text = "choose a di to attack with";
 
             CalculateDamage(playerUnit.selectedDi.value, enemyUnit.selectedDi.value);
             enemyUnit.TakeDamage(damage);
+            descriptionText.text = "you deal " + damage + " damage";
 
             // after we attack the enemy di stays on screen for a bit
-            yield return new WaitForSeconds(1f);
-
-            playerActionButtonText.text = "choose a di";
-            playerActionButton.enabled = false;
+            yield return new WaitForSeconds(2f);
 
             TurnCleanUp();
         } 
@@ -80,14 +85,16 @@ public class BattleSystem : MonoBehaviour {
 
     IEnumerator EnemyTurn() {
         if(playerUnit.hasChosenDi) {
+            playerUnit.hasChosenDi = false;
             enemyUnit.CallSpawner();
             yield return new WaitForSeconds(0.5f);
             
             CalculateDamage(enemyUnit.selectedDi.value, playerUnit.selectedDi.value);
-            print("enemy damage: " + damage);
             playerUnit.TakeDamage(damage);
+            descriptionText.text = "you take " + damage + " damage";
 
-            yield return new WaitForSeconds(1f);
+            // after we attack the enemy di stays on screen for a bit
+            yield return new WaitForSeconds(2f);
 
             TurnCleanUp();
         }
@@ -97,14 +104,18 @@ public class BattleSystem : MonoBehaviour {
         if (enemyUnit.currentHealth <= 0) {
             state = BattleState.WON;
             // EndBattle(won: true);
+            descriptionText.text = "you  won!";
         } else if(playerUnit.currentHealth <= 0) {
             state = BattleState.LOST;
+            descriptionText.text = "you  lost... better luck next time";
             // EndBattle(won: false);
         } else {
             if(state.Equals(BattleState.PLAYERTURN)) {
                 state = BattleState.ENEMYTURN;
+                descriptionText.text = "it's the enemy's turn... defend!";
             } else if(state.Equals(BattleState.ENEMYTURN)){
                 state = BattleState.PLAYERTURN;
+                descriptionText.text = "it's your turn... attack!";
             }
         }
 

@@ -39,7 +39,6 @@ public class Player : Di
     }
 
     public void CallSpawner() {
-        print("calling player spawner");
         StartCoroutine(SpawnDice());
     }
 
@@ -58,7 +57,7 @@ public class Player : Di
             
         for(int i = 0; i < diceNumber; i++) {
             float x = i == 0 ? 3 : 6.2f;
-            float y = -2.5f;
+            float y = -2;
 
             Di newDi = Instantiate(diToSpawn, new Vector3(x, y, 0), transform.rotation);
             newDi.index = i;
