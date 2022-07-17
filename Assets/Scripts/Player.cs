@@ -74,15 +74,20 @@ public class Player : Di
             if(selectedDi.index == index) {
                 print("has chosen di");
                 selectedDi = null;
+                hasChosenDi = false;
+            } else {
+                Di selectedGO = selectedDi.GetComponent<Di>();
+                hasChosenDi = true;
+                selectedGO.isSelected = false;
+                selectedGO.ResetScale();
+                
+                selectedDi = currentDice[index].GetComponent<Di>();
             }
+        } else {
+            hasChosenDi = true;
+            selectedDi = currentDice[index].GetComponent<Di>();
 
-            for(int i = 0; i < diceNumber; i++) {
-                Di di = currentDice[i].GetComponent<Di>();
-                currentDice[i].index = null;
-            }
         }
 
-        hasChosenDi = true;
-        selectedDi = currentDice[index].GetComponent<Di>();
     }    
 }

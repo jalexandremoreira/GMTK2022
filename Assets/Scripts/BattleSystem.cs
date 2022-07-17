@@ -62,12 +62,6 @@ public class BattleSystem : MonoBehaviour {
 
     IEnumerator PlayerAction() {
         if (playerUnit.hasChosenDi) {
-            if(playerActionButtonText != null && playerUnit.selectedDi != null) {
-                playerActionButtonText.text = "attack with number " + playerUnit.selectedDi.value + " di";
-
-                playerActionButton.enabled = true;
-            }
-
             enemyUnit.CallSpawner();
 
             yield return new WaitForSeconds(.5f);
@@ -117,6 +111,17 @@ public class BattleSystem : MonoBehaviour {
         }
         if(enemyText != null) {
             enemyText.text = enemyUnit.name + " " + enemyUnit.currentHealth.ToString();
+        }
+
+        if(playerUnit.hasChosenDi == true) {
+            string buttonText = state.Equals(BattleState.PLAYERTURN) ? "attack with number " : state.Equals(BattleState.ENEMYTURN) ? "defend with number " : "";
+
+            playerActionButtonText.text = buttonText + playerUnit.selectedDi.value + " di";
+
+            playerActionButton.enabled = true;
+        } else if(playerUnit.hasChosenDi == false) { 
+            playerActionButtonText.text = "choose a di";
+            playerActionButton.enabled = false;
         }
     }
 

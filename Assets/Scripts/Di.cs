@@ -18,6 +18,7 @@ public class Di : MonoBehaviour {
     public int? index;
     
     public virtual void Start() {
+        isSelected = false;
         value = Random.Range(1, 7);
         newScale = 0.15f;
         newScaleEnemy = 0.2f;
@@ -46,7 +47,7 @@ public class Di : MonoBehaviour {
     {
         if(!isEnemy) {
             if(!isSelected) {
-                transform.localScale -= new Vector3(newScale, newScale, 0);
+                ResetScale();
             }
         }
     }
@@ -55,7 +56,7 @@ public class Di : MonoBehaviour {
     {
         if(!isEnemy && index != null) {
             isSelected = !isSelected;
-            
+
             int newIndex = (int)index;
             playerScript.HandleSelectDi(newIndex);
         }
@@ -63,5 +64,9 @@ public class Di : MonoBehaviour {
     
     void RollDi() {
         diNumberText.text = value.ToString();
+    }
+
+    public void ResetScale() {
+        transform.localScale -= new Vector3(newScale, newScale, 0);
     }
 }
