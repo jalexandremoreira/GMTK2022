@@ -13,11 +13,8 @@ public class Enemy : Di
     public int currentHealth;
     public int maxHealth;
 
-    private Animator anim;
-
-    public override void Start()
-    {
-        anim = GetComponent<Animator>();
+    public override void Start() {
+        transform.localScale += new Vector3(-0.016f, -0.016f, 0);
     }
     
     public void TakeDamage(int damageAmount) {
@@ -59,6 +56,14 @@ public class Enemy : Di
         if(selectedDi != null) {
             Destroy(selectedDi.gameObject);
             yield return new WaitForSeconds(1.5f);
+        }
+    }
+
+    public void Animator(bool isAttacking) {
+        if(isAttacking == true) {
+            transform.localScale += new Vector3(0.08f, 0.08f, 0);
+        } else if (isAttacking == false) {
+            transform.localScale += new Vector3(-0.016f, -0.016f, 0);
         }
     }
 }

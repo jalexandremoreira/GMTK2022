@@ -112,9 +112,13 @@ public class BattleSystem : MonoBehaviour {
         } else {
             if(state.Equals(BattleState.PLAYERTURN)) {
                 state = BattleState.ENEMYTURN;
+                playerUnit.Animator(false);
+                enemyUnit.Animator(true);
                 descriptionText.text = "it's the enemy's turn... defend!";
             } else if(state.Equals(BattleState.ENEMYTURN)){
                 state = BattleState.PLAYERTURN;
+                playerUnit.Animator(true);
+                enemyUnit.Animator(false);
                 descriptionText.text = "it's your turn... attack!";
             }
         }

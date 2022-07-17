@@ -17,14 +17,11 @@ public class Player : Di
 
     public bool hasChosenDi;
 
-    private Animator anim;
-
-
     public override void Start()
     {   
         hasChosenDi = false;
-        anim = GetComponent<Animator>();
         CallSpawner();
+        transform.localScale += new Vector3(0.08f, 0.08f, 0);
     }
 
     // void Update() {
@@ -84,8 +81,14 @@ public class Player : Di
         } else {
             hasChosenDi = true;
             selectedDi = currentDice[index].GetComponent<Di>();
-
         }
-
-    }    
+    }
+    
+    public void Animator(bool isAttacking) {
+        if(isAttacking == true) {
+            transform.localScale += new Vector3(0.08f, 0.08f, 0);
+        } else if (isAttacking == false) {
+            transform.localScale += new Vector3(-0.016f, -0.016f, 0);
+        }
+    } 
 }
